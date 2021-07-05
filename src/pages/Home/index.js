@@ -22,18 +22,21 @@ export function Home() {
       if(!res.ok) throw new Error('Something went wrong');
       
       const data = await res.json();
-      
-      const transformedMovies = data.results.map((movieData) => {
-        const { episode_id, title, opening_crawl, release_date } = movieData;
-        
-        return {
-          id: episode_id,
-          title,
-          openingText: opening_crawl,
-          releaseDate: release_date,
-        };
-      });
-      setMovies(transformedMovies);
+      console.log(data)
+
+      const loadedMovies = [];
+ 
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          openingText: data[key].openingText,
+          releaseData: data[key].releaseData,
+
+        })
+      }
+
+      setMovies(loadedMovies);
     } catch(e) {
       setError(toast.error(`${e.message}`));
     }
@@ -44,8 +47,17 @@ export function Home() {
     handleFetchMovies();
   }, [handleFetchMovies])
 
-  function handleAddMovie(movie) {
-    console.log(movie);
+  async function handleAddMovie(movie) {
+    const url = `https://react-fetch-movies-2bc13-default-rtdb.firebaseio.com/movies.json`;
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(movie),
+      headers: {
+        'Content-type': 'application/json'
+      }
+    });
+    const data = await res.json();
+    console.log(data);
   }
 
   return (
