@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import ReactLoading from "react-loading";
 
 export const Section = styled.section`
   margin: 1rem auto;
@@ -28,4 +29,13 @@ export const Button = styled.section`
     background-color: #460897;
     border-color: #460897;
   }
+`;
+
+export const SpinLoader = styled(ReactLoading)`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  color: #460897;
+  height: 10%;
+  width: 10%;
 `;

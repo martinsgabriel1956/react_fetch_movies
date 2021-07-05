@@ -1,8 +1,8 @@
-import { useState } from "react";
-import ReactLoading from 'react-loading';
+import { useCallback, useEffect, useState } from "react";
+
 import toast, { Toaster } from 'react-hot-toast';
 
-import { Section, Button } from "./styles";
+import { Section, Button, SpinLoader } from "./styles";
 
 import { MoviesList } from "../../components/MoviesList";
 
@@ -10,8 +10,8 @@ export function Home() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false); 
-
-  async function handleFetchMovies() {
+  
+  const handleFetchMovies = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(true);
@@ -36,7 +36,11 @@ export function Home() {
       setError(toast.error(`${e.message}`));
     }
     setIsLoading(false);
-  }
+  }, [])
+
+  useEffect(() => {
+    handleFetchMovies();
+  }, [handleFetchMovies])
 
   return (
     <>
@@ -47,7 +51,7 @@ export function Home() {
         {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
         {!isLoading && movies.length === 0 && <p>Found no Movies</p>}
         {!isLoading && error && <Toaster />}
-        {isLoading && <ReactLoading type="spin" color="#460897" height={'10%'} width={'10%'} center={true} />}
+        {isLoading && <SpinLoader type="spin" />}
       </Section>
     </>
   );
