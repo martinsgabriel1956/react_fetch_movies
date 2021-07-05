@@ -11,7 +11,7 @@ export const Section = styled.section`
   border-radius: 12px;
 `;
 
-export const Button = styled.section`
+export const Button = styled.button`
   font: inherit;
   cursor: pointer;
   background: #230052;

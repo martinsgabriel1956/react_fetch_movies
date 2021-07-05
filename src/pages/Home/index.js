@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 
 import toast, { Toaster } from 'react-hot-toast';
 
+import { AddMovie } from '../../components/AddMovie';
+
 import { Section, Button, SpinLoader } from "./styles";
 
 import { MoviesList } from "../../components/MoviesList";
@@ -15,7 +17,7 @@ export function Home() {
     try {
       setIsLoading(true);
       setError(true);
-      const res = await fetch(`https://swapi.dev/api/films`);
+      const res = await fetch(`https://react-fetch-movies-2bc13-default-rtdb.firebaseio.com/movies.json`);
       
       if(!res.ok) throw new Error('Something went wrong');
       
@@ -42,8 +44,15 @@ export function Home() {
     handleFetchMovies();
   }, [handleFetchMovies])
 
+  function handleAddMovie(movie) {
+    console.log(movie);
+  }
+
   return (
     <>
+      <Section>
+        <AddMovie onAddMovie={handleAddMovie} />
+      </Section>
       <Section>
         <Button onClick={handleFetchMovies}>Fetch Movies</Button>
       </Section>
